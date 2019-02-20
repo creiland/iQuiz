@@ -13,6 +13,7 @@ class iQuizTableViewController: UIViewController {
     var quizzes: [Quiz] = []
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var SettingsButton: UIButton!
     
     
     override func viewDidLoad() {
@@ -20,6 +21,8 @@ class iQuizTableViewController: UIViewController {
         quizzes = createArray()
         tableView.delegate = self
         tableView.dataSource = self
+        SettingsButton.setTitle("Settings", for: .normal)
+        SettingsButton.addTarget(self, action: #selector(iQuizTableViewController.showSettings(_:)), for: .touchUpInside)
     }
     
     func createArray() -> [Quiz]{
@@ -34,6 +37,15 @@ class iQuizTableViewController: UIViewController {
         temp.append(img3)
         
         return temp
+    }
+    
+    //show settings alert
+    @IBAction func showSettings(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "Settings", message:
+            "Settings go here", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 
 }

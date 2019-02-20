@@ -16,6 +16,7 @@
 		3C225F952218CDAD00BDA4A6 /* iQuizTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C225F942218CDAD00BDA4A6 /* iQuizTableViewController.swift */; };
 		3C225F972218DD9F00BDA4A6 /* QuizCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C225F962218DD9F00BDA4A6 /* QuizCell.swift */; };
 		3C225F992218DEFB00BDA4A6 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C225F982218DEFB00BDA4A6 /* Quiz.swift */; };
+		3C8FEC42221DE9C60010B1E2 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FEC41221DE9C60010B1E2 /* QuestionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		3C225F942218CDAD00BDA4A6 /* iQuizTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iQuizTableViewController.swift; sourceTree = "<group>"; };
 		3C225F962218DD9F00BDA4A6 /* QuizCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizCell.swift; sourceTree = "<group>"; };
 		3C225F982218DEFB00BDA4A6 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		3C8FEC41221DE9C60010B1E2 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			children = (
 				3C225F662218CBE300BDA4A6 /* AppDelegate.swift */,
 				3C225F6A2218CBE300BDA4A6 /* Main.storyboard */,
+				3C8FEC41221DE9C60010B1E2 /* QuestionViewController.swift */,
 				3C225F942218CDAD00BDA4A6 /* iQuizTableViewController.swift */,
 				3C225F6D2218CBE400BDA4A6 /* Assets.xcassets */,
 				3C225F6F2218CBE400BDA4A6 /* LaunchScreen.storyboard */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C225F972218DD9F00BDA4A6 /* QuizCell.swift in Sources */,
+				3C8FEC42221DE9C60010B1E2 /* QuestionViewController.swift in Sources */,
 				3C225F952218CDAD00BDA4A6 /* iQuizTableViewController.swift in Sources */,
 				3C225F992218DEFB00BDA4A6 /* Quiz.swift in Sources */,
 				3C225F672218CBE300BDA4A6 /* AppDelegate.swift in Sources */,

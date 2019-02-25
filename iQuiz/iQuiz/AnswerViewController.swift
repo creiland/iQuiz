@@ -16,6 +16,8 @@ class AnswerViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var correctIndicator: UILabel!
     
+    
+    var swipeDirection : String = "right"
     var selected : String?
     var correctAnswer : String?
     var questionText : String?
@@ -40,17 +42,56 @@ class AnswerViewController: UIViewController {
         } else {
             correctIndicator.text = "Incorrect"
         }
+        
+        //swipe gestures
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.rightSwipe))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.leftSwipe))
+        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+        self.view.addGestureRecognizer(swipeLeft)
     }
     
     @IBAction func goToNext(_ sender: Any) {
         QuizRepo.incrementCurrentQ()
+        print(QuizRepo.currentQuestion)
         print(QuizRepo.currentQuiz?.questions.count)
-        if QuizRepo.getCurrentQ() == QuizRepo.currentQuiz?.questions.count{
+        if QuizRepo.getCurrentQ() == (QuizRepo.currentQuiz?.questions.count)!{
             performSegue(withIdentifier: "toResults", sender: correct)
         } else {
-            performSegue(withIdentifier: "nextQuestion", sender: correct)
+            performSegue(withIdentifier: "toNext", sender: correct)
         }
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        print(swipeDirection)
+        if swipeDirection == "left" && navigationController != nil && !(navigationController?.viewControllers)!.contains(self) {
+            // back button was pressed
+            self.navigationController?.popToRootViewController(animated: animated)
+            QuizRepo.resetCurrentQ()
+            QuizRepo.resetNumCorrect()
+        }
+        super.viewWillDisappear(animated)
+    }
+    
+    @objc func rightSwipe(gesture: UIGestureRecognizer) {
+        if gesture is UISwipeGestureRecognizer {
+                swipeDirection = "right"
+                if QuizRepo.getCurrentQ() == (QuizRepo.currentQuiz?.questions.count)!{
+                    performSegue(withIdentifier: "toResults", sender: correct)
+                } else {
+                    performSegue(withIdentifier: "toNext", sender: correct)
+                }
+        }
+    }
+    
+    @objc func leftSwipe(gesture: UIGestureRecognizer) {
+        if gesture is UISwipeGestureRecognizer {
+                //left view controller
+                swipeDirection = "left"
+                self.navigationController?.popToRootViewController(animated: true)
+        }
+    }
 }

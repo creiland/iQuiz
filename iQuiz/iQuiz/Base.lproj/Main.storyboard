@@ -203,7 +203,6 @@
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="goToNext:" destination="w8z-I5-TQR" eventType="touchUpInside" id="CsJ-hA-b1m"/>
-                                    <segue destination="p4L-TJ-YqY" kind="show" identifier="nextQuestion" id="KfZ-Ex-aLa"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p0h-p5-dNb">
@@ -256,11 +255,12 @@
                         <outlet property="questionLabel" destination="li4-ZS-Tt3" id="HCK-uW-TxS"/>
                         <outlet property="selectedLabel" destination="SmT-mK-DnP" id="G1U-9U-Ot3"/>
                         <segue destination="Z0r-8F-07K" kind="show" identifier="toResults" id="VM7-5H-4Bl"/>
+                        <segue destination="p4L-TJ-YqY" kind="show" identifier="toNext" id="J3e-kV-fEB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GEk-Df-eeS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2845.5999999999999" y="133.5832083958021"/>
+            <point key="canvasLocation" x="2849" y="148"/>
         </scene>
         <!--Results View Controller-->
         <scene sceneID="6e8-Nc-pKz">
@@ -286,19 +286,34 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r9k-gK-NTv">
+                                <rect key="frame" x="87.5" y="570" width="200" height="85"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="85" id="SyS-4O-iio"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="dIl-wp-d0q"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="goBack:" destination="Z0r-8F-07K" eventType="touchUpInside" id="Vsl-DB-nAR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="0il-Vl-79i" firstAttribute="centerX" secondItem="ExE-nb-GM7" secondAttribute="centerX" id="CYv-iq-gPl"/>
                             <constraint firstItem="bzT-AZ-7Fs" firstAttribute="centerX" secondItem="ExE-nb-GM7" secondAttribute="centerX" id="fBd-r7-BDS"/>
                             <constraint firstItem="0il-Vl-79i" firstAttribute="top" secondItem="sjS-ko-CbW" secondAttribute="top" constant="12" id="gan-1K-PdH"/>
+                            <constraint firstItem="r9k-gK-NTv" firstAttribute="centerX" secondItem="ExE-nb-GM7" secondAttribute="centerX" id="m9D-Or-GgK"/>
                             <constraint firstItem="bzT-AZ-7Fs" firstAttribute="centerY" secondItem="ExE-nb-GM7" secondAttribute="centerY" id="ohT-vr-8aX"/>
+                            <constraint firstItem="sjS-ko-CbW" firstAttribute="bottom" secondItem="r9k-gK-NTv" secondAttribute="bottom" constant="12" id="srC-cG-MTI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="sjS-ko-CbW"/>
                     </view>
                     <connections>
+                        <outlet property="backToQuizzes" destination="r9k-gK-NTv" id="o3P-Vs-acf"/>
                         <outlet property="titleLabel" destination="0il-Vl-79i" id="21H-Nm-d5s"/>
                         <outlet property="userScore" destination="bzT-AZ-7Fs" id="cqA-Vq-crM"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="backToQuizzes" id="una-Rg-P1E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qer-jm-Gr0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -325,6 +340,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="KfZ-Ex-aLa"/>
+        <segue reference="J3e-kV-fEB"/>
+        <segue reference="hAV-CF-Eeh"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -23,6 +23,8 @@ class QuestionViewController: UIViewController {
     var selectedAnswer : String = ""
     var correctAnswer : String = ""
     
+    var swipeDirection: String = "right"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         quiz = QuizRepo.getQuiz()
@@ -38,10 +40,44 @@ class QuestionViewController: UIViewController {
         qTableView.dataSource = self
         submitButton.setTitle("Submit", for: .normal)
         
+        //swipe gestures
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.rightSwipe))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.leftSwipe))
+        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+        self.view.addGestureRecognizer(swipeLeft)
     }
     
     @IBAction func submitClicked(_ sender: UIButton) {
         performSegue(withIdentifier: "answerSegue", sender: selectedAnswer)
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if navigationController != nil && !(navigationController?.viewControllers)!.contains(self) {
+            // back button was pressed
+            self.navigationController?.popToRootViewController(animated: animated)
+            QuizRepo.resetCurrentQ()
+            QuizRepo.resetNumCorrect()
+        }
+        super.viewWillDisappear(animated)
+    }
+    
+    @objc func rightSwipe(gesture: UIGestureRecognizer) {
+        if gesture is UISwipeGestureRecognizer {
+            swipeDirection = "right"
+            performSegue(withIdentifier: "answerSegue", sender: selectedAnswer)
+        }
+    }
+    
+    @objc func leftSwipe(gesture: UIGestureRecognizer) {
+        if gesture is UISwipeGestureRecognizer {
+            //left view controller
+            swipeDirection = "left"
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
 }
 

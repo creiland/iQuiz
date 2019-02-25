@@ -16,6 +16,8 @@ class QuizRepo{
     static var numCorrect : Int = 0
     static var currentQuiz: Quiz?
     
+    static var jsonLink: String = "http://tednewardsandbox.site44.com/questions.json"
+
     class func setQuiz(quiz:Quiz){
         currentQuiz = quiz
     }
@@ -51,13 +53,19 @@ class QuizRepo{
         numCorrect = 0
     }
     
+    class func setJson(url: String){
+        jsonLink = url
+    }
+    
     class func initializeRepo(completion: @escaping([Quiz])->()){
-        if let url = URL(string: "http://tednewardsandbox.site44.com/questions.json") {
+        
+        if let url = URL(string: jsonLink) {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     do {
                        quizList = try JSONDecoder().decode([Quiz].self, from: data)
                         completion(quizList)
+                        
                     } catch let error {
                         print(error)
                     }

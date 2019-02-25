@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SystemConfiguration
+import Foundation
 
 class iQuizTableViewController: UIViewController {
     
@@ -32,17 +34,76 @@ class iQuizTableViewController: UIViewController {
         tableView.dataSource = self
         SettingsButton.setTitle("Settings", for: .normal)
         SettingsButton.addTarget(self, action: #selector(iQuizTableViewController.showSettings(_:)), for: .touchUpInside)
+        self.showNetworkAlert()
     }
     
     //show settings alert
     @IBAction func showSettings(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Settings", message:
-            "Settings go here", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+            "Enter a quiz link", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Download", style: .default) { (_) in
+            guard let textFields = alertController.textFields,
+                textFields.count > 0 else {
+                    // Could not find textfield
+                    return
+            }
+            
+            QuizRepo.setJson(url: textFields[0].text!)
+            DispatchQueue.main.async {
+                QuizRepo.initializeRepo(completion: { (newQuestions: [Quiz]) in
+                    self.quizzes = newQuestions
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.currentQuiz = self.quizzes[0]
+                    }
+                })
+                print("reloaded")
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Quiz Link"
+        }
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        //alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
         
         self.present(alertController, animated: true, completion: nil)
     }
-
+    
+    //check network connection
+    func isInternetAvailable() -> Bool
+    {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }
+        
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        return (isReachable && !needsConnection)
+    }
+    
+    func showNetworkAlert() {
+        if !isInternetAvailable() {
+            let alert = UIAlertController(title: "Warning", message: "No Network Connection", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 extension iQuizTableViewController: UITableViewDataSource, UITableViewDelegate{

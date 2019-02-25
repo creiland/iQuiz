@@ -14,21 +14,30 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var qTableView: UITableView!
     
+    var quiz: Quiz?
+    
     var answers : [String] = []
-    var question : String = "test"
+    var questionTitle: String?
+    var currentQuestion: Int = 0
     
     var selectedAnswer : String = ""
     var correctAnswer : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        answers = ["test", "test2"]
-        selectedAnswer = "test"
-        correctAnswer = "test"
+        quiz = QuizRepo.getQuiz()
+        currentQuestion = QuizRepo.getCurrentQ()
+        print(quiz!.questions[currentQuestion].text)
+        if quiz != nil{
+            answers = quiz!.questions[currentQuestion].answers
+            correctAnswer = quiz!.questions[currentQuestion].answer
+            questionLabel.text = quiz!.questions[currentQuestion].text
+        }
+        
         qTableView.delegate = self
         qTableView.dataSource = self
         submitButton.setTitle("Submit", for: .normal)
-        questionLabel.text = "test question"
+        
     }
     
     @IBAction func submitClicked(_ sender: UIButton) {
@@ -60,7 +69,10 @@ extension QuestionViewController: UITableViewDataSource, UITableViewDelegate{
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? AnswerViewController, let detailToSend = sender as? String {
+            let correctIndex:Int? = Int(correctAnswer)
             vc.selected = detailToSend
+            vc.correctAnswer = answers[correctIndex!]
+            vc.questionText = quiz!.questions[currentQuestion].text
         }
     }
     

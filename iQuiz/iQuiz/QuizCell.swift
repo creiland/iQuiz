@@ -14,8 +14,10 @@ class QuizCell: UITableViewCell {
     
     @IBOutlet weak var QuizImageView: UIImageView!
     
+    var quiz: Quiz?
     
     func setQuiz(quiz: Quiz){
+        self.quiz = quiz
         QuizImageView.image = quiz.image
         CellTitleLabel.text = quiz.title
     }

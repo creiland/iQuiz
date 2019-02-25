@@ -10,7 +10,9 @@ import UIKit
 
 class iQuizTableViewController: UIViewController {
     
+    var spinner = UIActivityIndicatorView(style: .gray)
     var quizzes: [Quiz] = []
+    var currentQuiz: Quiz?
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var SettingsButton: UIButton!
@@ -18,25 +20,18 @@ class iQuizTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        quizzes = createArray()
+        
+        QuizRepo.initializeRepo(completion: { (newQuestions: [Quiz]) in
+            self.quizzes = newQuestions
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.currentQuiz = self.quizzes[0]
+            }
+        })
         tableView.delegate = self
         tableView.dataSource = self
         SettingsButton.setTitle("Settings", for: .normal)
         SettingsButton.addTarget(self, action: #selector(iQuizTableViewController.showSettings(_:)), for: .touchUpInside)
-    }
-    
-    func createArray() -> [Quiz]{
-        var temp : [Quiz] = []
-        
-        let img1 = Quiz(image: #imageLiteral(resourceName: "math"), title:"Math")
-        let img2 = Quiz(image: #imageLiteral(resourceName: "marvel.png"), title: "Marvel Super Heroes")
-        let img3 = Quiz(image: #imageLiteral(resourceName: "science"), title: "Science")
-        
-        temp.append(img1)
-        temp.append(img2)
-        temp.append(img3)
-        
-        return temp
     }
     
     //show settings alert
@@ -63,6 +58,19 @@ extension iQuizTableViewController: UITableViewDataSource, UITableViewDelegate{
         cell.setQuiz(quiz: q)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var detailToSend: Quiz?
+        detailToSend = quizzes[indexPath.row]
+        currentQuiz = detailToSend!
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? QuestionViewController, let detailToSend = sender as? QuizCell {
+            vc.quiz = detailToSend.quiz
+            QuizRepo.setQuiz(quiz: detailToSend.quiz!)
+        }
     }
     
 }

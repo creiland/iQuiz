@@ -11,6 +11,7 @@ import UIKit
 
 class Quiz: Codable{
     
+    
     var image: UIImage = #imageLiteral(resourceName: "math.png")
     var title: String
     var desc: String

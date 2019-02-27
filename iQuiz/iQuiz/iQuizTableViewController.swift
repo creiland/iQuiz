@@ -12,6 +12,9 @@ import Foundation
 
 class iQuizTableViewController: UIViewController {
     
+    let cacher: Cacher = Cacher(destination: .atFolder("Cacher"))
+    
+    var NetworkConnected: Bool = false
     var spinner = UIActivityIndicatorView(style: .gray)
     var quizzes: [Quiz] = []
     var currentQuiz: Quiz?
@@ -23,18 +26,35 @@ class iQuizTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        QuizRepo.initializeRepo(completion: { (newQuestions: [Quiz]) in
-            self.quizzes = newQuestions
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.currentQuiz = self.quizzes[0]
+        self.showNetworkAlert()
+        
+        if NetworkConnected{
+            QuizRepo.initializeRepo(completion: { (newQuestions: [Quiz]) in
+                self.quizzes = newQuestions
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.currentQuiz = self.quizzes[0]
+                    self.cacher.persist(item: Quizzes(quizList: newQuestions)) { url, error in
+                        if let error = error {
+                            print("Text failed to persist: \(error)")
+                        } else {
+                            print("Text persisted in \(String(describing: url))")
+                        }
+                    }
+                }
+            })
+        } else {
+            if let cachedQuizzes: Quizzes = cacher.load(fileName: "cachedQuizzes") {
+                QuizRepo.setQuizList(list: cachedQuizzes.quizzes)
+                self.quizzes = QuizRepo.getQuizzes()
             }
-        })
+            
+        }
         tableView.delegate = self
         tableView.dataSource = self
         SettingsButton.setTitle("Settings", for: .normal)
         SettingsButton.addTarget(self, action: #selector(iQuizTableViewController.showSettings(_:)), for: .touchUpInside)
-        self.showNetworkAlert()
+        
     }
     
     //show settings alert
@@ -51,6 +71,13 @@ class iQuizTableViewController: UIViewController {
             QuizRepo.setJson(url: textFields[0].text!)
             DispatchQueue.main.async {
                 QuizRepo.initializeRepo(completion: { (newQuestions: [Quiz]) in
+                    self.cacher.persist(item: Quizzes(quizList: newQuestions)) { url, error in
+                        if let error = error {
+                            print("Text failed to persist: \(error)")
+                        } else {
+                            print("Text persisted in \(String(describing: url))")
+                        }
+                    }
                     self.quizzes = newQuestions
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -96,8 +123,10 @@ class iQuizTableViewController: UIViewController {
         return (isReachable && !needsConnection)
     }
     
+    //shows alert if no connection
     func showNetworkAlert() {
-        if !isInternetAvailable() {
+        self.NetworkConnected = isInternetAvailable()
+        if !self.NetworkConnected {
             let alert = UIAlertController(title: "Warning", message: "No Network Connection", preferredStyle: .alert)
             let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
             alert.addAction(action)

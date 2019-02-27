@@ -17,6 +17,11 @@ class QuizRepo{
     static var currentQuiz: Quiz?
     
     static var jsonLink: String = "http://tednewardsandbox.site44.com/questions.json"
+    
+    
+    class func setQuizList(list: [Quiz]){
+        quizList = list
+    }
 
     class func setQuiz(quiz:Quiz){
         currentQuiz = quiz
@@ -58,14 +63,12 @@ class QuizRepo{
     }
     
     class func initializeRepo(completion: @escaping([Quiz])->()){
-        
         if let url = URL(string: jsonLink) {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     do {
                        quizList = try JSONDecoder().decode([Quiz].self, from: data)
                         completion(quizList)
-                        
                     } catch let error {
                         print(error)
                     }
@@ -75,4 +78,13 @@ class QuizRepo{
     }
 }
 
-
+class Quizzes: Cachable, Codable {
+    
+    var fileName: String = "cachedQuizzes"
+    var quizzes: [Quiz]
+    
+    init(quizList: [Quiz]) {
+        quizzes = quizList
+    }
+    
+}

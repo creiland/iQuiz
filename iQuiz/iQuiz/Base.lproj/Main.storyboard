@@ -25,12 +25,25 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuizCell" id="GsI-oT-YJ1" customClass="QuizCell" customModule="iQuiz" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GsI-oT-YJ1" id="E4m-7k-29g" customClass="Quiz">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GsI-oT-YJ1" id="E4m-7k-29g" customClass="Quiz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="89.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="wUh-dX-QSy" userLabel="QuizImageView">
+                                                    <rect key="frame" x="12" y="2.5" width="85" height="85"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="85" id="D6f-ZQ-4zN"/>
+                                                        <constraint firstAttribute="width" constant="85" id="aWH-tG-Kfe"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pld-SX-3m4">
+                                                    <rect key="frame" x="109" y="41" width="254" height="40.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="guy-bJ-dgl" userLabel="CellTitleLabel">
-                                                    <rect key="frame" x="109" y="32.5" width="254" height="25"/>
+                                                    <rect key="frame" x="109" y="8" width="254" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="df3-J9-yCz"/>
                                                     </constraints>
@@ -38,26 +51,23 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wUh-dX-QSy" userLabel="QuizImageView">
-                                                    <rect key="frame" x="12" y="9" width="85" height="85"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="85" id="D6f-ZQ-4zN"/>
-                                                        <constraint firstAttribute="width" constant="85" id="aWH-tG-Kfe"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="guy-bJ-dgl" secondAttribute="bottom" constant="32.5" id="H8x-MX-Doc"/>
+                                                <constraint firstItem="pld-SX-3m4" firstAttribute="leading" secondItem="wUh-dX-QSy" secondAttribute="trailing" constant="12" id="0vS-gV-YqX"/>
+                                                <constraint firstAttribute="bottom" secondItem="pld-SX-3m4" secondAttribute="bottom" constant="8" id="4Rl-AE-c8F"/>
+                                                <constraint firstAttribute="trailing" secondItem="pld-SX-3m4" secondAttribute="trailing" constant="12" id="9XA-EG-GXz"/>
+                                                <constraint firstItem="pld-SX-3m4" firstAttribute="top" secondItem="guy-bJ-dgl" secondAttribute="bottom" constant="8" id="BYn-g8-hqt"/>
                                                 <constraint firstAttribute="trailing" secondItem="guy-bJ-dgl" secondAttribute="trailing" constant="12" id="J3P-bO-jV1"/>
                                                 <constraint firstItem="wUh-dX-QSy" firstAttribute="leading" secondItem="E4m-7k-29g" secondAttribute="leading" constant="12" id="NCH-UQ-22A"/>
                                                 <constraint firstItem="guy-bJ-dgl" firstAttribute="leading" secondItem="wUh-dX-QSy" secondAttribute="trailing" constant="12" id="jfc-kH-xkQ"/>
-                                                <constraint firstItem="guy-bJ-dgl" firstAttribute="top" secondItem="E4m-7k-29g" secondAttribute="top" constant="32.5" id="mKN-BN-w4B"/>
+                                                <constraint firstItem="guy-bJ-dgl" firstAttribute="top" secondItem="E4m-7k-29g" secondAttribute="top" constant="8" id="nmY-aH-JvD"/>
                                                 <constraint firstItem="wUh-dX-QSy" firstAttribute="centerY" secondItem="E4m-7k-29g" secondAttribute="centerY" id="rAF-La-3Ym"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="CellTitleLabel" destination="guy-bJ-dgl" id="48c-0u-eWv"/>
                                             <outlet property="QuizImageView" destination="wUh-dX-QSy" id="YRd-AF-ZGx"/>
+                                            <outlet property="descriptionLabel" destination="pld-SX-3m4" id="Zvn-3j-nWD"/>
                                             <segue destination="p4L-TJ-YqY" kind="show" id="uN8-G6-ovV"/>
                                         </connections>
                                     </tableViewCell>
@@ -92,7 +102,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="134"/>
+            <point key="canvasLocation" x="1076" y="133.5832083958021"/>
         </scene>
         <!--Question View Controller-->
         <scene sceneID="avm-2f-EHZ">

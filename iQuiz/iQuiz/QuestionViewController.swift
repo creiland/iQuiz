@@ -107,7 +107,7 @@ extension QuestionViewController: UITableViewDataSource, UITableViewDelegate{
         if let vc = segue.destination as? AnswerViewController, let detailToSend = sender as? String {
             let correctIndex:Int? = Int(correctAnswer)
             vc.selected = detailToSend
-            vc.correctAnswer = answers[correctIndex!]
+            vc.correctAnswer = answers[correctIndex! - 1]
             vc.questionText = quiz!.questions[currentQuestion].text
         }
     }

@@ -55,8 +55,6 @@ class AnswerViewController: UIViewController {
     
     @IBAction func goToNext(_ sender: Any) {
         QuizRepo.incrementCurrentQ()
-        print(QuizRepo.currentQuestion)
-        print(QuizRepo.currentQuiz?.questions.count)
         if QuizRepo.getCurrentQ() == (QuizRepo.currentQuiz?.questions.count)!{
             performSegue(withIdentifier: "toResults", sender: correct)
         } else {
